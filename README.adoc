@@ -114,18 +114,30 @@ Sub-commands (with their short aliases) :
 | `roll`     | `r`  | Outputs raw rolls without lookup (audit, debug)
 | `lookup`   | `lk` | Word for a given dice roll
 | `list`     | `ls` | Lists embedded wordlists
-| `version`  | `v`  | Prints the version
-| `help`     | `h`  | Prints this help
+| `help`     | `h`  | Detailed help for a sub-command
 |===
+
+`help SUBCMD` (or `h SUBCMD`) shows the detailed documentation
+of a sub-command (NAME / USAGE / OPTIONS / EXAMPLES) :
+
+[source,shell]
+----
+crystal-diceware help              # general summary (= --help)
+crystal-diceware help generate     # detailed doc with examples
+crystal-diceware h roll
+----
 
 Options :
 
 * `-n N` / `--words N` — number of words (default 7)
 * `-l ID` / `--language ID` — wordlist (`eff_long` \| `fr_mbelivo_5d`)
-* `--dice LIST` — manual mode, comma-separated rolls (e.g. `13456,41522,...`)
+* `-D LIST` / `--dice LIST` — manual mode, comma-separated rolls
+  (e.g. `13456,41522,...`)
 * `-k N` / `--auto-words N` — hybrid : N first words auto, rest from `--dice`
 * `-s SEP` / `--separator SEP` — word separator (default : space)
 * `-e` / `--entropy` — print entropy in bits
+* `-v` / `--version` — version
+* `-h` / `--help` — help
 
 == Threat model & RNG
 

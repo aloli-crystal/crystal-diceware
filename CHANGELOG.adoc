@@ -3,6 +3,52 @@
 :toc-title: Versions
 :toclevels: 2
 
+== v0.1.2 — 2026-04-28
+
+**Nettoyage CLI : tous les drapeaux long ont un short, séparation
+nette commandes/options, sous-commande `help` enrichie.**
+
+=== Changements
+
+* **Nouveau short `-D`** pour `--dice` (mode manuel). Toutes les
+  options long ont désormais un short.
+* **Sous-commande `version` retirée** — doublonnait le drapeau
+  Unix standard `-v` / `--version`.
+* **Sous-commande `help` conservée et enrichie** — accepte
+  désormais un argument optionnel pour afficher la documentation
+  détaillée d'une sous-commande spécifique (style `git help`).
+
+=== Doc détaillée par sous-commande
+
+[source,shell]
+----
+crystal-diceware help              # résumé général (= --help)
+crystal-diceware help generate     # NAME / USAGE / OPTIONS / EXEMPLES
+crystal-diceware help roll
+crystal-diceware help lookup
+crystal-diceware help list
+crystal-diceware h g               # alias courts utilisables
+----
+
+Chaque page de doc liste les options pertinentes et 3-5 exemples
+concrets. Plus utile que la bannière commune trop large.
+
+=== Récap des shorts
+
+[cols="1,1,3"]
+|===
+| Long | Short | Description
+
+| `--words`        | `-n` | Nombre de mots (défaut : 7)
+| `--language`     | `-l` | Wordlist
+| `--dice`         | `-D` | Mode manuel (NOUVEAU short)
+| `--auto-words`   | `-k` | Mode hybride
+| `--separator`    | `-s` | Séparateur
+| `--entropy`      | `-e` | Affiche l'entropie
+| `--version`      | `-v` | Version
+| `--help`         | `-h` | Aide
+|===
+
 == v0.1.1 — 2026-04-28
 
 **Module Crystal renommé `CrystalDiceware` → `Diceware`** (cohérence

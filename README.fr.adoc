@@ -114,18 +114,29 @@ Sous-commandes (avec alias courts) :
 | `roll`     | `r`  | Tire les jets bruts sans lookup (audit, debug)
 | `lookup`   | `lk` | Mot correspondant à un jet
 | `list`     | `ls` | Liste les wordlists embarquées
-| `version`  | `v`  | Affiche la version
-| `help`     | `h`  | Affiche cette aide
+| `help`     | `h`  | Aide détaillée d'une sous-commande
 |===
+
+`help SOUS-COMMANDE` (ou `h SOUS-COMMANDE`) affiche la doc
+détaillée d'une sous-commande (NOM / USAGE / OPTIONS / EXEMPLES) :
+
+[source,shell]
+----
+crystal-diceware help              # résumé général (= --help)
+crystal-diceware help generate     # doc détaillée avec exemples
+crystal-diceware h roll
+----
 
 Options :
 
 * `-n N` / `--words N` — nombre de mots (défaut 7)
 * `-l ID` / `--language ID` — wordlist (`eff_long` \| `fr_mbelivo_5d`)
-* `--dice LIST` — mode manuel, jets séparés par virgules
+* `-D LIST` / `--dice LIST` — mode manuel, jets séparés par virgules
 * `-k N` / `--auto-words N` — hybride : N premiers auto, reste via `--dice`
 * `-s SEP` / `--separator SEP` — séparateur entre mots (défaut : espace)
 * `-e` / `--entropy` — affiche l'entropie en bits
+* `-v` / `--version` — version
+* `-h` / `--help` — aide
 
 == Modèle de menace et aléa
 
