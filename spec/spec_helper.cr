@@ -1,2 +1,2 @@
 require "spec"
-require "../src/crystal_diceware"
+require "../src/diceware"

@@ -1,5 +1,5 @@
 require "option_parser"
-require "./crystal_diceware"
+require "./diceware"
 
 # crystal-diceware CLI.
 #

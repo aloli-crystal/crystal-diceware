@@ -1,5 +1,5 @@
 name: crystal-diceware
-version: 0.1.2
+version: 0.1.3
 
 description: |
   Diceware passphrase generator in pure Crystal — generates

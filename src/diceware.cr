@@ -1,6 +1,6 @@
-require "./crystal_diceware/version"
-require "./crystal_diceware/roll"
-require "./crystal_diceware/wordlist"
+require "./diceware/version"
+require "./diceware/roll"
+require "./diceware/wordlist"
 
 # Crystal Diceware — générateur de passphrases Diceware.
 #

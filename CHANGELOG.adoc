@@ -3,6 +3,21 @@
 :toc-title: Versions
 :toclevels: 2
 
+== v0.1.3 — 2026-04-28
+
+**Renommage des fichiers source pour aligner sur le nom du module.**
+Le module s'appelle `Diceware` (depuis v0.1.1) ; le fichier
+d'entrée et son dossier de modules portent désormais le même nom.
+
+* `src/crystal_diceware.cr` → `src/diceware.cr`
+* `src/crystal_diceware/` → `src/diceware/`
+* Les `require` internes et `spec/spec_helper.cr` sont adaptés.
+
+**Impact pour les utilisateurs** : le `require` côté consommateur
+passe de `crystal-diceware/crystal_diceware` à
+`crystal-diceware/diceware`. Le nom du shard (`crystal-diceware`,
+convention paquet Aloli) reste inchangé.
+
 == v0.1.2 — 2026-04-28
 
 **Nettoyage CLI : tous les drapeaux long ont un short, séparation
