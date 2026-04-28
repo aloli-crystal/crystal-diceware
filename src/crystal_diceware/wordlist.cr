@@ -1,4 +1,4 @@
-module CrystalDiceware
+module Diceware
   # Une wordlist Diceware : un tableau ordonné de N mots, où N est
   # une puissance de 6 (1296 = 6^4 ou 7776 = 6^5).
   #

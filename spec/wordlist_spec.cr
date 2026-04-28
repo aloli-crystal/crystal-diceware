@@ -1,34 +1,34 @@
 require "./spec_helper"
 
-describe CrystalDiceware::Wordlist do
+describe Diceware::Wordlist do
   describe "embarquement" do
     it "expose :eff_long et :fr_mbelivo_5d" do
-      ids = CrystalDiceware::Wordlist.identifiers
+      ids = Diceware::Wordlist.identifiers
       ids.should contain(:eff_long)
       ids.should contain(:fr_mbelivo_5d)
     end
 
     it ".for(:nonexistent) lève une erreur" do
-      expect_raises(CrystalDiceware::Error, /inconnue/) do
-        CrystalDiceware::Wordlist.for(:nonexistent)
+      expect_raises(Diceware::Error, /inconnue/) do
+        Diceware::Wordlist.for(:nonexistent)
       end
     end
 
     it "size = 7776 pour les deux listes embarquées" do
-      CrystalDiceware::Wordlist.for(:eff_long).size.should eq(7776)
-      CrystalDiceware::Wordlist.for(:fr_mbelivo_5d).size.should eq(7776)
+      Diceware::Wordlist.for(:eff_long).size.should eq(7776)
+      Diceware::Wordlist.for(:fr_mbelivo_5d).size.should eq(7776)
     end
 
     it "language = :en pour eff_long, :fr pour fr_mbelivo_5d" do
-      CrystalDiceware::Wordlist.for(:eff_long).language.should eq(:en)
-      CrystalDiceware::Wordlist.for(:fr_mbelivo_5d).language.should eq(:fr)
+      Diceware::Wordlist.for(:eff_long).language.should eq(:en)
+      Diceware::Wordlist.for(:fr_mbelivo_5d).language.should eq(:fr)
     end
   end
 
   describe "validations structurelles" do
     {% for id in [:eff_long, :fr_mbelivo_5d] %}
       describe "{{ id.id }}" do
-        list = CrystalDiceware::Wordlist.for({{ id }})
+        list = Diceware::Wordlist.for({{ id }})
 
         it "n'a aucun doublon (case-insensitive)" do
           unique = list.words.map(&.downcase).to_set
@@ -57,14 +57,14 @@ describe CrystalDiceware::Wordlist do
   end
 
   describe "vecteurs historiques EFF (anti-corruption)" do
-    list = CrystalDiceware::Wordlist.for(:eff_long)
+    list = Diceware::Wordlist.for(:eff_long)
 
     it "11111 → abacus" do
-      list.lookup(CrystalDiceware::Roll.from_string("11111")).should eq("abacus")
+      list.lookup(Diceware::Roll.from_string("11111")).should eq("abacus")
     end
 
     it "66666 → zoom" do
-      list.lookup(CrystalDiceware::Roll.from_string("66666")).should eq("zoom")
+      list.lookup(Diceware::Roll.from_string("66666")).should eq("zoom")
     end
 
     it "vecteurs représentatifs publiés par l'EFF" do
@@ -83,25 +83,25 @@ describe CrystalDiceware::Wordlist do
         "66664" => "zoologist",
       }
       vectors.each do |jet, expected|
-        list.lookup(CrystalDiceware::Roll.from_string(jet)).should eq(expected)
+        list.lookup(Diceware::Roll.from_string(jet)).should eq(expected)
       end
     end
   end
 
   describe "vecteurs historiques fr_mbelivo_5d" do
-    list = CrystalDiceware::Wordlist.for(:fr_mbelivo_5d)
+    list = Diceware::Wordlist.for(:fr_mbelivo_5d)
 
     it "11111 → abaisse" do
-      list.lookup(CrystalDiceware::Roll.from_string("11111")).should eq("abaisse")
+      list.lookup(Diceware::Roll.from_string("11111")).should eq("abaisse")
     end
 
     it "66666 → zoom" do
-      list.lookup(CrystalDiceware::Roll.from_string("66666")).should eq("zoom")
+      list.lookup(Diceware::Roll.from_string("66666")).should eq("zoom")
     end
 
     it "11112 → abaisser, 11113 → abandon" do
-      list.lookup(CrystalDiceware::Roll.from_string("11112")).should eq("abaisser")
-      list.lookup(CrystalDiceware::Roll.from_string("11113")).should eq("abandon")
+      list.lookup(Diceware::Roll.from_string("11112")).should eq("abaisser")
+      list.lookup(Diceware::Roll.from_string("11113")).should eq("abandon")
     end
   end
 end

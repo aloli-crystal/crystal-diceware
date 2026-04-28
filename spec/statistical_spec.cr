@@ -14,7 +14,7 @@ describe "uniformité du tirage" do
     counts = Array(Array(Int32)).new(5) { Array.new(7, 0) } # 1..6 (idx 1..6)
 
     n.times do
-      r = CrystalDiceware::Roll.secure
+      r = Diceware::Roll.secure
       r.digits.each_with_index do |d, pos|
         counts[pos][d] += 1
       end
@@ -33,12 +33,12 @@ describe "uniformité du tirage" do
   end
 
   it "distribution des mots dans une wordlist", tags: %w[statistical] do
-    list = CrystalDiceware::Wordlist.for(:eff_long)
+    list = Diceware::Wordlist.for(:eff_long)
     n = 1_000_000
     counts = Array.new(list.size, 0)
 
     n.times do
-      counts[CrystalDiceware::Roll.secure.to_index] += 1
+      counts[Diceware::Roll.secure.to_index] += 1
     end
 
     expected = n / list.size.to_f

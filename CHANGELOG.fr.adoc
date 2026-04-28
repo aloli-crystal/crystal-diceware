@@ -3,6 +3,20 @@
 :toc-title: Versions
 :toclevels: 2
 
+== v0.1.1 — 2026-04-28
+
+**Module Crystal renommé `CrystalDiceware` → `Diceware`** (cohérence
+avec `Toml` dans `crystal-toml` ; le préfixe `Crystal` dans le nom
+du module est redondant — le shard s'appelle déjà `crystal-diceware`).
+
+* `Diceware.generate(...)`, `Diceware.roll(...)`, `Diceware.entropy(...)`
+* `Diceware::Wordlist`, `Diceware::Roll`, `Diceware::Error`
+
+Le binaire CLI conserve le nom `crystal-diceware` pour rester
+cohérent avec les autres binaires de l'écosystème Aloli.
+
+Pas de changement comportemental.
+
 == v0.1.0 — 2026-04-28
 
 Première version publique. Générateur de passphrases Diceware
@@ -21,12 +35,12 @@ en Crystal pur.
 ** `fr_mbelivo_5d` (français, 7776, mbelivo / dérivé Lexique)
 
 * **API Crystal** :
-** `CrystalDiceware.generate(words:, language:, source:, rolls:, auto_words:, separator:)`
-** `CrystalDiceware.roll(words:, source:, rolls:, auto_words:)`
-** `CrystalDiceware.entropy(words:, wordlist:)`
-** `CrystalDiceware::Wordlist` (`.for`, `.identifiers`,
+** `Diceware.generate(words:, language:, source:, rolls:, auto_words:, separator:)`
+** `Diceware.roll(words:, source:, rolls:, auto_words:)`
+** `Diceware.entropy(words:, wordlist:)`
+** `Diceware::Wordlist` (`.for`, `.identifiers`,
    `.languages`, `.default`, `#size`, `#lookup`, `#secure_word`)
-** `CrystalDiceware::Roll` (`.from_string`, `.from_index`,
+** `Diceware::Roll` (`.from_string`, `.from_index`,
    `.secure`, `#to_index`, `#to_s`, `#digits`)
 
 * **CLI** avec alias courts :

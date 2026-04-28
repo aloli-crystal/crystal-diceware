@@ -1,11 +1,11 @@
-module CrystalDiceware
+module Diceware
   # Erreur générique du shard.
   class Error < Exception; end
 
   # Un tirage Diceware : 5 dés à 6 faces, chaque chiffre ∈ [1, 6].
   #
   # ```
-  # roll = CrystalDiceware::Roll.from_string("13456")
+  # roll = Diceware::Roll.from_string("13456")
   # roll.digits   # => [1, 3, 4, 5, 6]
   # roll.to_index # => 1063 (index 0-based dans une liste de 7776)
   # roll.to_s     # => "13456"
@@ -22,7 +22,7 @@ module CrystalDiceware
     end
 
     # Parse une chaîne `"13456"` (5 chiffres ASCII 1..6).
-    # Lève `CrystalDiceware::Error` si la chaîne est invalide.
+    # Lève `Diceware::Error` si la chaîne est invalide.
     def self.from_string(s : String) : Roll
       if s.size != DICE
         raise Error.new("un tirage Diceware fait #{DICE} chiffres, reçu : #{s.inspect} (#{s.size} caractères)")

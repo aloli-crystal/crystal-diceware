@@ -74,30 +74,30 @@ crystal-diceware list
 require "crystal-diceware"
 
 # Auto : 7 mots, langue auto-détectée via $LANG
-phrase = CrystalDiceware.generate(words: 7)
+phrase = Diceware.generate(words: 7)
 
 # Langue explicite
-phrase = CrystalDiceware.generate(words: 7, language: :fr_mbelivo_5d)
+phrase = Diceware.generate(words: 7, language: :fr_mbelivo_5d)
 
 # Mode manuel (l'utilisateur fournit ses jets de dés physiques)
-phrase = CrystalDiceware.generate(
+phrase = Diceware.generate(
   words: 7, language: :fr_mbelivo_5d, source: :manual,
   rolls: ["13456", "41522", "26611", "55432", "33214", "11111", "62524"],
 )
 
 # Hybride : K auto + (N-K) manuels
-phrase = CrystalDiceware.generate(
+phrase = Diceware.generate(
   words: 7, source: :hybrid, auto_words: 4,
   rolls: ["13456", "41522", "26611"],
 )
 
 # Calcul d'entropie
-bits = CrystalDiceware.entropy(words: 7, wordlist: :fr_mbelivo_5d)
+bits = Diceware.entropy(words: 7, wordlist: :fr_mbelivo_5d)
 # => 90.47
 
 # Lookup d'un seul jet
-list = CrystalDiceware::Wordlist.for(:eff_long)
-list.lookup(CrystalDiceware::Roll.from_string("13456"))
+list = Diceware::Wordlist.for(:eff_long)
+list.lookup(Diceware::Roll.from_string("13456"))
 list.size       # 7776
 list.language   # :en
 ----

@@ -49,7 +49,7 @@ parser = OptionParser.new do |p|
   p.on("-s SEP", "--separator=SEP", "Séparateur entre les mots (défaut : un espace)") { |v| separator = v }
   p.on("-e", "--entropy", "Affiche l'entropie en bits sous la passphrase") { show_entropy = true }
   p.on("-v", "--version", "Affiche la version") do
-    puts "crystal-diceware #{CrystalDiceware::VERSION}"
+    puts "crystal-diceware #{Diceware::VERSION}"
     exit 0
   end
   p.on("-h", "--help", "Affiche cette aide") do
@@ -73,7 +73,7 @@ class String
       when "fr_mbelivo_5d" then :fr_mbelivo_5d
       when "en"            then :en
       when "fr"            then :fr
-      else                      raise CrystalDiceware::Error.new("identifiant inconnu : #{self.inspect}")
+      else                      raise Diceware::Error.new("identifiant inconnu : #{self.inspect}")
       end
     {% end %}
   end
@@ -107,7 +107,7 @@ begin
   case subcommand
   when "generate"
     rolls = resolve_rolls(dice_str)
-    phrase = CrystalDiceware.generate(
+    phrase = Diceware.generate(
       words: words,
       language: wordlist_id,
       source: source,
@@ -117,13 +117,13 @@ begin
     )
     puts phrase
     if show_entropy
-      list = (id = wordlist_id) ? CrystalDiceware::Wordlist.for(id) : CrystalDiceware::Wordlist.default
-      bits = CrystalDiceware.entropy(words: words, list: list)
+      list = (id = wordlist_id) ? Diceware::Wordlist.for(id) : Diceware::Wordlist.default
+      bits = Diceware.entropy(words: words, list: list)
       printf("Entropie : %.2f bits (#{words} mots × log₂(#{list.size}))\n", bits)
     end
   when "roll"
     rolls = resolve_rolls(dice_str)
-    selected = CrystalDiceware.roll(
+    selected = Diceware.roll(
       words: words,
       source: source,
       rolls: rolls,
@@ -135,21 +135,21 @@ begin
       STDERR.puts "Usage : crystal-diceware lookup JET [-l ID]"
       exit 1
     end
-    list = (id = wordlist_id) ? CrystalDiceware::Wordlist.for(id) : CrystalDiceware::Wordlist.default
+    list = (id = wordlist_id) ? Diceware::Wordlist.for(id) : Diceware::Wordlist.default
     positional.each do |jet|
-      puts list.lookup(CrystalDiceware::Roll.from_string(jet))
+      puts list.lookup(Diceware::Roll.from_string(jet))
     end
   when "list"
-    CrystalDiceware::Wordlist.identifiers.each do |list_id|
-      list = CrystalDiceware::Wordlist.for(list_id)
+    Diceware::Wordlist.identifiers.each do |list_id|
+      list = Diceware::Wordlist.for(list_id)
       printf("  %-18s  %-3s  %-5d  %s\n", list.id, list.language, list.size, list.description)
     end
   when "version"
-    puts "crystal-diceware #{CrystalDiceware::VERSION}"
+    puts "crystal-diceware #{Diceware::VERSION}"
   when "help"
     puts parser
   end
-rescue ex : CrystalDiceware::Error
+rescue ex : Diceware::Error
   STDERR.puts "Erreur : #{ex.message}"
   exit 1
 end

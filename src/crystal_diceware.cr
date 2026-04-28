@@ -21,15 +21,15 @@ require "./crystal_diceware/wordlist"
 #
 # ```
 # require "crystal-diceware"
-# phrase = CrystalDiceware.generate(words: 7)
+# phrase = Diceware.generate(words: 7)
 # # => "abacus pinacle catalpa serment grenouille ablation luminaire"
 # ```
 #
 # Choix explicite de la liste :
 #
 # ```
-# CrystalDiceware.generate(words: 7, language: :fr_mbelivo_5d)
-# CrystalDiceware.entropy(words: 7, wordlist: :fr_mbelivo_5d)
+# Diceware.generate(words: 7, language: :fr_mbelivo_5d)
+# Diceware.entropy(words: 7, wordlist: :fr_mbelivo_5d)
 # # => 90.47
 # ```
 #
@@ -37,7 +37,7 @@ require "./crystal_diceware/wordlist"
 #
 # ```
 # rolls = ["13456", "41522", "26611", "55432", "33214", "11111", "62524"]
-# CrystalDiceware.generate(words: 7, source: :manual, rolls: rolls)
+# Diceware.generate(words: 7, source: :manual, rolls: rolls)
 # ```
 #
 # ## Sources d'aléa
@@ -47,7 +47,7 @@ require "./crystal_diceware/wordlist"
 # * `:hybrid` — K mots `:auto` + (N-K) mots `:manual`. Compromis
 #               quand on ne fait pas pleinement confiance au PRNG
 #               sans pour autant lancer 35 dés à la main.
-module CrystalDiceware
+module Diceware
   # Sépare les mots dans la passphrase produite par `#generate`.
   DEFAULT_SEPARATOR = " "
 
