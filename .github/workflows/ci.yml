@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [production]
+  pull_request:
+    branches: [production]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal:latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: shards install
+
+      - name: Format check
+        run: crystal tool format --check src/ spec/
+
+      - name: Lint
+        run: bin/ameba
+
+      - name: Specs (excluding statistical)
+        run: crystal spec --tag '~statistical'
+
+      - name: Build
+        run: shards build --release
+
+      - name: Smoke test
+        run: |
+          ./bin/crystal-diceware version
+          ./bin/crystal-diceware list
+          ./bin/crystal-diceware generate -n 7 -l eff_long --entropy
+          ./bin/crystal-diceware lookup 11111 -l eff_long | grep -x abacus
+          ./bin/crystal-diceware lookup 66666 -l eff_long | grep -x zoom
+
+  statistical:
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal:latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: shards install
+      - name: Statistical specs
+        run: crystal spec --tag statistical

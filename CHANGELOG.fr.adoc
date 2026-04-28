@@ -1,0 +1,48 @@
+= Journal des modifications
+:toc: left
+:toc-title: Versions
+:toclevels: 2
+
+== v0.1.0 — 2026-04-28
+
+Première version publique. Générateur de passphrases Diceware
+en Crystal pur.
+
+=== Fonctionnalités
+
+* **Trois sources d'aléa** :
+** `:auto` (défaut) — `Random::Secure` (`/dev/urandom`)
+** `:manual` — jets de dés fournis par l'utilisateur (héritage
+   du Diceware physique)
+** `:hybrid` — K mots auto + (N-K) manuels
+
+* **Deux wordlists embarquées** :
+** `eff_long` (anglais, 7776, référence EFF 2016)
+** `fr_mbelivo_5d` (français, 7776, mbelivo / dérivé Lexique)
+
+* **API Crystal** :
+** `CrystalDiceware.generate(words:, language:, source:, rolls:, auto_words:, separator:)`
+** `CrystalDiceware.roll(words:, source:, rolls:, auto_words:)`
+** `CrystalDiceware.entropy(words:, wordlist:)`
+** `CrystalDiceware::Wordlist` (`.for`, `.identifiers`,
+   `.languages`, `.default`, `#size`, `#lookup`, `#secure_word`)
+** `CrystalDiceware::Roll` (`.from_string`, `.from_index`,
+   `.secure`, `#to_index`, `#to_s`, `#digits`)
+
+* **CLI** avec alias courts :
+** `generate` (`g`) | `roll` (`r`) | `lookup` (`lk`) |
+   `list` (`ls`) | `version` (`v`) | `help` (`h`)
+
+=== Tests
+
+40 exemples verts (dont 2 tests statistiques χ² d'uniformité
+sur 1 M tirages chacun, lançables via
+`crystal spec --tag statistical`). Les vecteurs sont validés
+contre les références EFF publiées (`11111` → `abacus`,
+`66666` → `zoom`, plus un échantillon représentatif).
+
+=== Embarquement
+
+Les wordlists sont compilées dans le binaire via
+`{{ read_file(...) }}` (zéro chargement à l'exécution, zéro
+dépendance externe). Chaque langue ajoute ~50 Ko au binaire.

@@ -1,0 +1,47 @@
+= Changelog
+:toc: left
+:toc-title: Versions
+:toclevels: 2
+
+== v0.1.0 — 2026-04-28
+
+First public release. Diceware passphrase generator in pure
+Crystal.
+
+=== Features
+
+* **Three RNG sources** :
+** `:auto` (default) — `Random::Secure` (`/dev/urandom`)
+** `:manual` — user-provided dice rolls (heritage of physical
+   Diceware)
+** `:hybrid` — K words auto + (N-K) manual
+
+* **Two embedded wordlists** :
+** `eff_long` (English, 7776, EFF 2016 reference)
+** `fr_mbelivo_5d` (French, 7776, mbelivo / Lexique-derived)
+
+* **Crystal API** :
+** `CrystalDiceware.generate(words:, language:, source:, rolls:, auto_words:, separator:)`
+** `CrystalDiceware.roll(words:, source:, rolls:, auto_words:)`
+** `CrystalDiceware.entropy(words:, wordlist:)`
+** `CrystalDiceware::Wordlist` (`.for`, `.identifiers`, `.languages`,
+   `.default`, `#size`, `#lookup`, `#secure_word`)
+** `CrystalDiceware::Roll` (`.from_string`, `.from_index`,
+   `.secure`, `#to_index`, `#to_s`, `#digits`)
+
+* **CLI** with short aliases :
+** `generate` (`g`) | `roll` (`r`) | `lookup` (`lk`) |
+   `list` (`ls`) | `version` (`v`) | `help` (`h`)
+
+=== Tests
+
+40 examples green (incl. 2 statistical χ² uniformity tests
+on 1M draws each, runnable as `crystal spec --tag statistical`).
+Vectors validated against published EFF references (`11111` →
+`abacus`, `66666` → `zoom`, plus a representative sample).
+
+=== Embedding
+
+Wordlists are baked into the binary at compile time via
+`{{ read_file(...) }}` (zero runtime fileLoad, zero external
+dependency). Each language adds ~50 KB to the binary.

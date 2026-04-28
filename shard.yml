@@ -1,0 +1,32 @@
+name: crystal-diceware
+version: 0.1.0
+
+description: |
+  Diceware passphrase generator in pure Crystal — generates
+  memorable passphrases with measurable entropy by drawing
+  N words from a wordlist of 7776 (= 6^5) entries. Supports
+  Random::Secure as default RNG and manual dice input
+  (heritage of the historical Diceware "5 dice / 6 faces"
+  protocol designed by Arnold Reinhold in 1995).
+
+  Embeds two wordlists out of the box:
+  * `eff_long` (English, 7776, EFF 2016 reference)
+  * `fr_mbelivo_5d` (French, 7776, mbelivo derivative)
+
+  Used by `crystal-secrets` for master passphrase generation.
+
+authors:
+  - Philippe Nénert <philippe@aloli.fr>
+
+license: MIT
+
+development_dependencies:
+  ameba:
+    github: crystal-ameba/ameba
+    version: "~> 1.6"
+
+targets:
+  crystal-diceware:
+    main: src/cli.cr
+
+crystal: ">= 1.19.0"

@@ -1,0 +1,4 @@
+# ameba configuration
+
+Naming/BlockParameterName:
+  Enabled: false # `r`, `d`, `ch` sont parfaitement clairs en contexte mathématique

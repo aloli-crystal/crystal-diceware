@@ -1,0 +1,180 @@
+= crystal-diceware
+:toc: macro
+:toclevels: 2
+
+Diceware passphrase generator in pure Crystal — produces
+memorable passphrases with measurable entropy by drawing N
+words from a wordlist of 7776 (= 6^5) entries.
+
+Ports the protocol designed by
+https://theworld.com/~reinhold/diceware.html[Arnold Reinhold]
+in 1995 (5 dice × 6 faces) with two RNG sources :
+
+* `Random::Secure` (`/dev/urandom` on FreeBSD/Linux/macOS) — default
+* manual dice input (you roll your own dice and type the results)
+* hybrid (K auto + N-K manual)
+
+Used by `crystal-secrets` to generate the master passphrase.
+
+🇫🇷 Lisez ce document en français : link:README.fr.adoc[README.fr.adoc]
+
+toc::[]
+
+== Quick start
+
+[source,shell]
+----
+# Generate a 7-word passphrase (auto-detect language via $LANG,
+# fallback to English EFF)
+crystal-diceware generate -n 7
+
+# Same, French wordlist
+crystal-diceware g -n 7 -l fr_mbelivo_5d
+
+# Show entropy alongside
+crystal-diceware g -n 7 --entropy
+# → "runway wrongful ripening stick chewable counting making"
+# → Entropie : 90.47 bits (7 mots × log₂(7776))
+
+# Manual mode : you roll your physical dice, type the results
+crystal-diceware g -n 3 --dice 13456,41522,26611
+
+# Hybrid : 4 first words auto, 3 last from your dice
+crystal-diceware g -n 7 -k 4 --dice 13456,41522,26611
+
+# Single roll lookup
+crystal-diceware lookup 13456 -l eff_long
+# → blog
+
+# List embedded wordlists
+crystal-diceware list
+----
+
+== Embedded wordlists (v0.1)
+
+[cols="1,1,1,3", options="header"]
+|===
+| Identifier | Lang | Size | Source
+
+| `eff_long`
+| en
+| 7776
+| https://www.eff.org/dice[EFF Large Wordlist] (2016) — public reference
+
+| `fr_mbelivo_5d`
+| fr
+| 7776
+| https://github.com/mbelivo/diceware-wordlists-fr[mbelivo] (MIT, derived from Lexique)
+|===
+
+== Crystal API
+
+[source,crystal]
+----
+require "crystal-diceware"
+
+# Auto: 7 words, language auto-detected via $LANG
+phrase = CrystalDiceware.generate(words: 7)
+
+# Explicit language
+phrase = CrystalDiceware.generate(words: 7, language: :fr_mbelivo_5d)
+
+# Manual mode (user provides their physical-dice rolls)
+phrase = CrystalDiceware.generate(
+  words: 7, language: :fr_mbelivo_5d, source: :manual,
+  rolls: ["13456", "41522", "26611", "55432", "33214", "11111", "62524"],
+)
+
+# Hybrid: K auto + (N-K) manual
+phrase = CrystalDiceware.generate(
+  words: 7, source: :hybrid, auto_words: 4,
+  rolls: ["13456", "41522", "26611"],
+)
+
+# Compute entropy
+bits = CrystalDiceware.entropy(words: 7, wordlist: :fr_mbelivo_5d)
+# => 90.47
+
+# Lookup a single roll
+list = CrystalDiceware::Wordlist.for(:eff_long)
+list.lookup(CrystalDiceware::Roll.from_string("13456"))
+list.size       # 7776
+list.language   # :en
+----
+
+== CLI
+
+Sub-commands (with their short aliases) :
+
+[cols="1,1,3"]
+|===
+| Long | Short | Description
+
+| `generate` | `g`  | Generates a Diceware passphrase
+| `roll`     | `r`  | Outputs raw rolls without lookup (audit, debug)
+| `lookup`   | `lk` | Word for a given dice roll
+| `list`     | `ls` | Lists embedded wordlists
+| `version`  | `v`  | Prints the version
+| `help`     | `h`  | Prints this help
+|===
+
+Options :
+
+* `-n N` / `--words N` — number of words (default 7)
+* `-l ID` / `--language ID` — wordlist (`eff_long` \| `fr_mbelivo_5d`)
+* `--dice LIST` — manual mode, comma-separated rolls (e.g. `13456,41522,...`)
+* `-k N` / `--auto-words N` — hybrid : N first words auto, rest from `--dice`
+* `-s SEP` / `--separator SEP` — word separator (default : space)
+* `-e` / `--entropy` — print entropy in bits
+
+== Threat model & RNG
+
+* `:auto` mode pulls from `Random::Secure`, which on FreeBSD,
+  Linux and macOS reads from `/dev/urandom` (cryptographically
+  secure). On the rare platform where `Random::Secure` is
+  unavailable, `:auto` raises rather than degrade silently.
+* `:manual` mode trusts the user's dice. Use real dice (with
+  `5 throws × 5 dice` for 7 words) for maximum independence
+  from the OS PRNG.
+* `:hybrid` is a compromise : you trust the OS for K words and
+  add N-K manually rolled words for paranoia margin.
+
+== Adding a new wordlist
+
+PRs welcome on `aloli-crystal/crystal-diceware`. Requirements :
+
+* 7776 or 1296 entries, no duplicates (case-insensitive)
+* Word lengths in [3, 9] characters
+* No control characters, no spaces, no trailing punctuation
+* Valid UTF-8
+* Auditable source (link to upstream, license)
+
+Validation runs at compile time : a malformed list breaks the
+build of the shard.
+
+== Development
+
+[source,shell]
+----
+shards install
+crystal spec                      # 40 examples (~1s)
+crystal spec --tag statistical    # uniformity tests (~1s)
+bin/ameba
+crystal tool format src/ spec/
+----
+
+== Roadmap
+
+* **v0.1** — ✅ `eff_long` + `fr_mbelivo_5d`, CLI complète,
+  3 modes (`:auto`, `:manual`, `:hybrid`).
+* **v0.2** — `eff_short_1` (1296), `eff_short_2` (1296 préfixes
+  uniques), wordlist allemande / espagnole / italienne selon
+  PR communautaires.
+* **v0.3** — Mode passphrase « phrase formattée » : majuscule
+  initiale, séparateurs alternés, ajout de chiffres/symboles
+  (compromis lisibilité/règles de sites).
+
+== License
+
+MIT — see link:LICENSE[LICENSE]. Embedded wordlists keep their
+upstream licenses (CC0 for EFF, MIT for mbelivo).
