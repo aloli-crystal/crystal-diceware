@@ -4,20 +4,20 @@ module Diceware
   #
   # Les listes sont **embarquées dans le binaire** via les chaînes
   # constantes ci-dessous (générées à la compilation par
-  # `read_file` — pattern hérité de `crystal-flags`).
+  # `read_file` — pattern hérité de `flags`).
   #
   # Ne pas charger de wordlist depuis un fichier externe à
   # l'exécution : c'est une décision de sécurité de la chaîne
   # d'approvisionnement (cf. specs § « Ce que le shard ne fait
   # pas »). Pour ajouter une langue, soumettre une PR sur
-  # `aloli-crystal/crystal-diceware`.
+  # `aloli-crystal/diceware`.
   struct Wordlist
     # Identifiant de la liste (ex. `:eff_long`, `:fr_mbelivo_5d`).
     getter id : Symbol
     # Code langue ISO 639-1 (`:en`, `:fr`, …) — utilisé pour
     # l'auto-détection via `$LANG`.
     getter language : Symbol
-    # Description courte affichée par `crystal-diceware list`.
+    # Description courte affichée par `diceware list`.
     getter description : String
     # Les mots eux-mêmes, indexés 0-based dans le même ordre que
     # `Roll#to_index`.

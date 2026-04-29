@@ -20,7 +20,7 @@ require "./diceware/wordlist"
 # Cas le plus simple :
 #
 # ```
-# require "crystal-diceware"
+# require "diceware"
 # phrase = Diceware.generate(words: 7)
 # # => "abacus pinacle catalpa serment grenouille ablation luminaire"
 # ```

@@ -5,15 +5,15 @@
 
 == v0.1.4 — 2026-04-29
 
-**Repo GitHub renommé** `aloli-crystal/crystal-diceware` →
+**Repo GitHub renommé** `aloli-crystal/diceware` →
 `aloli-crystal/diceware` (convention de nommage Aloli : les créations
 originales abandonnent le préfixe `crystal-`). Les anciens liens
 redirigent automatiquement.
 
-* Champ `name:` du `shard.yml` mis à jour de `crystal-diceware` à `diceware`.
-* **Cible de compilation renommée** `crystal-diceware` → `diceware` :
+* Champ `name:` du `shard.yml` mis à jour de `diceware` à `diceware`.
+* **Cible de compilation renommée** `diceware` → `diceware` :
   la commande devient `shards build diceware` et produit `bin/diceware`.
-  Les invocations CLI documentées passent de `crystal-diceware ...` à
+  Les invocations CLI documentées passent de `diceware ...` à
   `diceware ...`. La nouvelle convention de l'écosystème supprime le
   préfixe `crystal-` aussi sur les binaires.
 * README et exemples mis à jour.
@@ -29,8 +29,8 @@ d'entrée et son dossier de modules portent désormais le même nom.
 * Les `require` internes et `spec/spec_helper.cr` sont adaptés.
 
 **Impact pour les utilisateurs** : le `require` côté consommateur
-passe de `crystal-diceware/crystal_diceware` à
-`crystal-diceware/diceware`. Le nom du shard (`crystal-diceware`,
+passe de `diceware/crystal_diceware` à
+`diceware/diceware`. Le nom du shard (`diceware`,
 convention paquet Aloli) reste inchangé.
 
 == v0.1.2 — 2026-04-28
@@ -52,12 +52,12 @@ nette commandes/options, sous-commande `help` enrichie.**
 
 [source,shell]
 ----
-crystal-diceware help              # résumé général (= --help)
-crystal-diceware help generate     # NAME / USAGE / OPTIONS / EXEMPLES
-crystal-diceware help roll
-crystal-diceware help lookup
-crystal-diceware help list
-crystal-diceware h g               # alias courts utilisables
+diceware help              # résumé général (= --help)
+diceware help generate     # NAME / USAGE / OPTIONS / EXEMPLES
+diceware help roll
+diceware help lookup
+diceware help list
+diceware h g               # alias courts utilisables
 ----
 
 Chaque page de doc liste les options pertinentes et 3-5 exemples
@@ -82,13 +82,13 @@ concrets. Plus utile que la bannière commune trop large.
 == v0.1.1 — 2026-04-28
 
 **Module Crystal renommé `CrystalDiceware` → `Diceware`** (cohérence
-avec `Toml` dans `crystal-toml` ; le préfixe `Crystal` dans le nom
-du module est redondant — le shard s'appelle déjà `crystal-diceware`).
+avec `Toml` dans `toml` ; le préfixe `Crystal` dans le nom
+du module est redondant — le shard s'appelle déjà `diceware`).
 
 * `Diceware.generate(...)`, `Diceware.roll(...)`, `Diceware.entropy(...)`
 * `Diceware::Wordlist`, `Diceware::Roll`, `Diceware::Error`
 
-Le binaire CLI conserve le nom `crystal-diceware` pour rester
+Le binaire CLI conserve le nom `diceware` pour rester
 cohérent avec les autres binaires de l'écosystème Aloli.
 
 Pas de changement comportemental.

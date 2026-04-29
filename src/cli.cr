@@ -1,7 +1,7 @@
 require "option_parser"
 require "./diceware"
 
-# crystal-diceware CLI.
+# diceware CLI.
 #
 # Sous-commandes (avec leurs alias courts) :
 #   generate (g)  — génère une passphrase
@@ -21,7 +21,7 @@ separator = " "
 
 parser = OptionParser.new do |p|
   p.banner = <<-BANNER
-    Usage : crystal-diceware SOUS-COMMANDE [options]
+    Usage : diceware SOUS-COMMANDE [options]
 
     Sous-commandes :
       generate (g)        Génère une passphrase Diceware
@@ -31,8 +31,8 @@ parser = OptionParser.new do |p|
       help     (h) [CMD]  Aide détaillée d'une sous-commande
 
     Pour la doc complète d'une sous-commande :
-      crystal-diceware help generate
-      crystal-diceware h roll
+      diceware help generate
+      diceware h roll
 
     Options :
     BANNER
@@ -52,7 +52,7 @@ parser = OptionParser.new do |p|
   p.on("-s SEP", "--separator=SEP", "Séparateur entre les mots (défaut : un espace)") { |v| separator = v }
   p.on("-e", "--entropy", "Affiche l'entropie en bits sous la passphrase") { show_entropy = true }
   p.on("-v", "--version", "Affiche la version") do
-    puts "crystal-diceware #{Diceware::VERSION}"
+    puts "diceware #{Diceware::VERSION}"
     exit 0
   end
   p.on("-h", "--help", "Affiche cette aide") do
@@ -110,11 +110,11 @@ subcommand =
 HELP_TEXTS = {
   "generate" => <<-DOC,
     NAME
-      crystal-diceware generate — génère une passphrase Diceware
+      diceware generate — génère une passphrase Diceware
 
     USAGE
-      crystal-diceware generate [options]
-      crystal-diceware g [options]
+      diceware generate [options]
+      diceware g [options]
 
     OPTIONS
       -n WORDS, --words=WORDS         Nombre de mots (défaut : 7)
@@ -129,29 +129,29 @@ HELP_TEXTS = {
 
     EXEMPLES
       # Génère 7 mots, langue auto-détectée via $LANG
-      crystal-diceware generate -n 7
+      diceware generate -n 7
 
       # 7 mots, wordlist française explicite, avec entropie
-      crystal-diceware g -n 7 -l fr_mbelivo_5d -e
+      diceware g -n 7 -l fr_mbelivo_5d -e
 
       # Mode manuel — vous lancez vos dés physiques et tapez les jets
-      crystal-diceware g -n 3 -D 13456,41522,26611
+      diceware g -n 3 -D 13456,41522,26611
 
       # Mode hybride — 4 mots auto + 3 mots manuels
-      crystal-diceware g -n 7 -k 4 -D 13456,41522,26611
+      diceware g -n 7 -k 4 -D 13456,41522,26611
 
       # Séparateur custom (utile pour copier-coller dans un site
       # qui n'accepte pas l'espace)
-      crystal-diceware g -n 7 -s "-"
+      diceware g -n 7 -s "-"
 
     DOC
   "roll" => <<-DOC,
     NAME
-      crystal-diceware roll — tire des jets bruts sans lookup
+      diceware roll — tire des jets bruts sans lookup
 
     USAGE
-      crystal-diceware roll [options]
-      crystal-diceware r [options]
+      diceware roll [options]
+      diceware r [options]
 
     DESCRIPTION
       Affiche `words` jets de 5 dés sous forme de chaînes de
@@ -169,7 +169,7 @@ HELP_TEXTS = {
       -k N, --auto-words=N            Mode :hybrid
 
     EXEMPLES
-      crystal-diceware roll -n 7
+      diceware roll -n 7
       # 23456
       # 41522
       # ...
@@ -177,11 +177,11 @@ HELP_TEXTS = {
     DOC
   "lookup" => <<-DOC,
     NAME
-      crystal-diceware lookup — mot correspondant à un jet
+      diceware lookup — mot correspondant à un jet
 
     USAGE
-      crystal-diceware lookup JET [JET2 ...] [options]
-      crystal-diceware lk JET [JET2 ...] [options]
+      diceware lookup JET [JET2 ...] [options]
+      diceware lk JET [JET2 ...] [options]
 
     DESCRIPTION
       Convertit un ou plusieurs jets de 5 chiffres en mots de la
@@ -191,35 +191,35 @@ HELP_TEXTS = {
       -l ID, --language=ID            Wordlist à consulter
 
     EXEMPLES
-      crystal-diceware lookup 11111 -l eff_long
+      diceware lookup 11111 -l eff_long
       # abacus
 
-      crystal-diceware lk 11111 66666 -l eff_long
+      diceware lk 11111 66666 -l eff_long
       # abacus
       # zoom
 
     DOC
   "list" => <<-DOC,
     NAME
-      crystal-diceware list — liste les wordlists embarquées
+      diceware list — liste les wordlists embarquées
 
     USAGE
-      crystal-diceware list
-      crystal-diceware ls
+      diceware list
+      diceware ls
 
     EXEMPLE
-      $ crystal-diceware list
+      $ diceware list
         eff_long            en   7776   EFF Large Wordlist (2016) — anglais
         fr_mbelivo_5d       fr   7776   mbelivo/diceware-wordlists-fr — français
 
     DOC
   "help" => <<-DOC,
     NAME
-      crystal-diceware help — aide détaillée d'une sous-commande
+      diceware help — aide détaillée d'une sous-commande
 
     USAGE
-      crystal-diceware help [SOUS-COMMANDE]
-      crystal-diceware h [SOUS-COMMANDE]
+      diceware help [SOUS-COMMANDE]
+      diceware h [SOUS-COMMANDE]
 
     DESCRIPTION
       Sans argument, affiche le résumé général (équivalent de
@@ -227,9 +227,9 @@ HELP_TEXTS = {
       détaillée de la sous-commande, avec exemples.
 
     EXEMPLES
-      crystal-diceware help              # résumé général
-      crystal-diceware help generate     # doc détaillée
-      crystal-diceware h roll            # idem, alias court
+      diceware help              # résumé général
+      diceware help generate     # doc détaillée
+      diceware h roll            # idem, alias court
 
     DOC
 } of String => String
@@ -267,7 +267,7 @@ begin
     selected.each { |r| puts r.to_s }
   when "lookup"
     if positional.empty?
-      STDERR.puts "Usage : crystal-diceware lookup JET [-l ID]"
+      STDERR.puts "Usage : diceware lookup JET [-l ID]"
       exit 1
     end
     list = (id = wordlist_id) ? Diceware::Wordlist.for(id) : Diceware::Wordlist.default

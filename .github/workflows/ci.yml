@@ -32,11 +32,11 @@ jobs:
 
       - name: Smoke test
         run: |
-          ./bin/crystal-diceware version
-          ./bin/crystal-diceware list
-          ./bin/crystal-diceware generate -n 7 -l eff_long --entropy
-          ./bin/crystal-diceware lookup 11111 -l eff_long | grep -x abacus
-          ./bin/crystal-diceware lookup 66666 -l eff_long | grep -x zoom
+          ./bin/diceware --version
+          ./bin/diceware list
+          ./bin/diceware generate -n 7 -l eff_long --entropy
+          ./bin/diceware lookup 11111 -l eff_long | grep -x abacus
+          ./bin/diceware lookup 66666 -l eff_long | grep -x zoom
 
   statistical:
     runs-on: ubuntu-latest
