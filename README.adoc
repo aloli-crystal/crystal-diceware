@@ -1,4 +1,4 @@
-= crystal-diceware
+= diceware
 :toc: macro
 :toclevels: 2
 
@@ -26,28 +26,28 @@ toc::[]
 ----
 # Generate a 7-word passphrase (auto-detect language via $LANG,
 # fallback to English EFF)
-crystal-diceware generate -n 7
+diceware generate -n 7
 
 # Same, French wordlist
-crystal-diceware g -n 7 -l fr_mbelivo_5d
+diceware g -n 7 -l fr_mbelivo_5d
 
 # Show entropy alongside
-crystal-diceware g -n 7 --entropy
+diceware g -n 7 --entropy
 # → "runway wrongful ripening stick chewable counting making"
 # → Entropie : 90.47 bits (7 mots × log₂(7776))
 
 # Manual mode : you roll your physical dice, type the results
-crystal-diceware g -n 3 --dice 13456,41522,26611
+diceware g -n 3 --dice 13456,41522,26611
 
 # Hybrid : 4 first words auto, 3 last from your dice
-crystal-diceware g -n 7 -k 4 --dice 13456,41522,26611
+diceware g -n 7 -k 4 --dice 13456,41522,26611
 
 # Single roll lookup
-crystal-diceware lookup 13456 -l eff_long
+diceware lookup 13456 -l eff_long
 # → blog
 
 # List embedded wordlists
-crystal-diceware list
+diceware list
 ----
 
 == Embedded wordlists (v0.1)
@@ -71,7 +71,7 @@ crystal-diceware list
 
 [source,crystal]
 ----
-require "crystal-diceware"
+require "diceware"
 
 # Auto: 7 words, language auto-detected via $LANG
 phrase = Diceware.generate(words: 7)
@@ -122,9 +122,9 @@ of a sub-command (NAME / USAGE / OPTIONS / EXAMPLES) :
 
 [source,shell]
 ----
-crystal-diceware help              # general summary (= --help)
-crystal-diceware help generate     # detailed doc with examples
-crystal-diceware h roll
+diceware help              # general summary (= --help)
+diceware help generate     # detailed doc with examples
+diceware h roll
 ----
 
 Options :
@@ -153,7 +153,7 @@ Options :
 
 == Adding a new wordlist
 
-PRs welcome on `aloli-crystal/crystal-diceware`. Requirements :
+PRs welcome on `aloli-crystal/diceware`. Requirements :
 
 * 7776 or 1296 entries, no duplicates (case-insensitive)
 * Word lengths in [3, 9] characters

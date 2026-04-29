@@ -1,4 +1,4 @@
-= crystal-diceware
+= diceware
 :toc: macro
 :toclevels: 2
 
@@ -26,28 +26,28 @@ toc::[]
 ----
 # Génère une passphrase de 7 mots (langue auto-détectée via $LANG,
 # fallback EFF anglais)
-crystal-diceware generate -n 7
+diceware generate -n 7
 
 # Idem, wordlist française
-crystal-diceware g -n 7 -l fr_mbelivo_5d
+diceware g -n 7 -l fr_mbelivo_5d
 
 # Affiche l'entropie en plus de la passphrase
-crystal-diceware g -n 7 --entropy
+diceware g -n 7 --entropy
 # → "abaisse pinacle catalpa serment grenouille ablation luminaire"
 # → Entropie : 90.47 bits (7 mots × log₂(7776))
 
 # Mode manuel : vous lancez vos dés physiques, tapez les jets
-crystal-diceware g -n 3 --dice 13456,41522,26611
+diceware g -n 3 --dice 13456,41522,26611
 
 # Hybride : 4 premiers mots auto, 3 derniers de vos dés
-crystal-diceware g -n 7 -k 4 --dice 13456,41522,26611
+diceware g -n 7 -k 4 --dice 13456,41522,26611
 
 # Lookup d'un seul jet
-crystal-diceware lookup 13456 -l eff_long
+diceware lookup 13456 -l eff_long
 # → blog
 
 # Liste les wordlists embarquées
-crystal-diceware list
+diceware list
 ----
 
 == Wordlists embarquées (v0.1)
@@ -71,7 +71,7 @@ crystal-diceware list
 
 [source,crystal]
 ----
-require "crystal-diceware"
+require "diceware"
 
 # Auto : 7 mots, langue auto-détectée via $LANG
 phrase = Diceware.generate(words: 7)
@@ -122,9 +122,9 @@ détaillée d'une sous-commande (NOM / USAGE / OPTIONS / EXEMPLES) :
 
 [source,shell]
 ----
-crystal-diceware help              # résumé général (= --help)
-crystal-diceware help generate     # doc détaillée avec exemples
-crystal-diceware h roll
+diceware help              # résumé général (= --help)
+diceware help generate     # doc détaillée avec exemples
+diceware h roll
 ----
 
 Options :
@@ -153,7 +153,7 @@ Options :
 
 == Ajouter une wordlist
 
-PR bienvenues sur `aloli-crystal/crystal-diceware`. Critères :
+PR bienvenues sur `aloli-crystal/diceware`. Critères :
 
 * 7776 ou 1296 entrées, pas de doublons (case-insensitive)
 * Longueurs ∈ [3, 9] caractères
